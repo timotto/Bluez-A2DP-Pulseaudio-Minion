@@ -1,0 +1,11 @@
+Waits for a paired Bluetooth device to connects and attempts to connect to a A2DP Audio source.
+It also accepts incoming A2DP connections.
+
+On startup, connects to the last connected A2DP device.
+
+When a Bluetooth A2DP sink is connected, it runs Pulseaudio command line utilities to connect
+the Bluetooth source via a loopback-module to the first detected sink. On disconnect the
+loopmack-module is removed.
+
+Bluetooth PIN and authorization has (yet) to be managed externally by means of 
+bluetooth-agent or the like

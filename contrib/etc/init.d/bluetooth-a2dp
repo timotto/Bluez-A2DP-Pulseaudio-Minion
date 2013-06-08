@@ -1,0 +1,54 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: bluetooth-a2dp
+# Required-Start:    $local_fs $syslog $remote_fs bluetooth
+# Required-Stop:     $local_fs $syslog $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start a2dp related services and shit
+### END INIT INFO
+#
+# bluez-a2dp    A2DP Bluetooth subsystem starting and stopping
+#
+# originally from bluez's scripts/bluetooth.init
+#
+# Tim Otto <tim@ubergrund.de>
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DESC=bluetooth-a2dp
+
+. /lib/lsb/init-functions
+
+set -e
+
+case $1 in
+  start)
+	log_daemon_msg "Starting $DESC"
+
+	/usr/sbin/hciconfig hci0 piscan
+	su -c /home/debian/start.sh debian &
+
+	log_end_msg 0
+  ;;
+  stop)
+	log_daemon_msg "Stopping $DESC"
+	log_end_msg 0
+  ;;
+  restart|force-reload)
+	$0 stop
+	sleep 1
+	$0 start
+  ;;
+  status)
+	status_of_proc "$DAEMON" "$DESC" && exit 0 || exit $?
+  ;;
+  *)
+	N=/etc/init.d/bluetooth
+	echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
+
+# vim:noet

@@ -1,0 +1,12 @@
+[Unit]
+Description=Bluetooth A2DP service
+After=bluetooth.target
+
+[Service]
+ExecStart=/home/debian/start.sh init
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
